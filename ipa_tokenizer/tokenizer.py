@@ -8,7 +8,10 @@ from ipa_tokenizer.corrections import (
     create_preprocessing_table,
     create_tokenization_table,
 )
-from ipa_tokenizer.inventories import get_phoible_inventories
+from ipa_tokenizer.inventories import (
+    get_phoible_inventories,
+    sound_frequencies,
+)
 from ipa_tokenizer.languages import to_glottocode
 from ipa_tokenizer.normalize import normalize_ipa
 
@@ -17,6 +20,7 @@ inventories = get_phoible_inventories()
 phones = inventories["*"]
 preprocessing_table = create_preprocessing_table()
 default_corrections = create_tokenization_table()
+frequencies = sound_frequencies(inventories)
 
 
 class UnknownSymbol(Exception):
@@ -33,8 +37,16 @@ def score_guess(guess: str, inventory: set[str]) -> tuple[int, int]:
     The score is meant to be used as a sort key for sorting guesses
     (lower-scoring guesses are prioritized).
     """
-    # I.e. prefer longest guess that's in the inventory.
-    return (int(guess not in inventory), -len(guess))
+    # Prefer guesses that are in the inventory.
+    first = int(guess not in inventory)
+
+    # If the language isn't specified, assign score based on frequency.
+    if inventory is phones:
+        second = -frequencies.get(guess, -1)
+        return (first, second)
+
+    # If the language is specified, prefer the longest guess.
+    return (first, -len(guess))
 
 
 def candidate_tokens(ipa: str, inventory: set[str]) -> list[str]:

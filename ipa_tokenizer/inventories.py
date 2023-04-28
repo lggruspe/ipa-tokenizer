@@ -3,6 +3,7 @@
 # See https://www.gnu.org/licenses/gpl-3.0.en.html
 """PHOIBLE sound inventories."""
 
+from collections import Counter
 from csv import reader
 from pathlib import Path
 
@@ -31,4 +32,15 @@ def get_phoible_inventories() -> dict[str, set[str]]:
     return result
 
 
-__all__ = ["get_phoible_inventories"]
+def sound_frequencies(inventories: dict[str, set[str]]) -> Counter[str]:
+    """Compute how many languages each sound occurs in."""
+    counter: Counter[str] = Counter()
+    for language, inventory in inventories.items():
+        if language == "*":
+            continue
+        for sound in inventory:
+            counter[sound] += 1
+    return counter
+
+
+__all__ = ["get_phoible_inventories", "sound_frequencies"]
