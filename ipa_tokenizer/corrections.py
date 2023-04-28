@@ -471,8 +471,9 @@ def create_tokenization_table() -> dict[str, str]:
         "kʼʷː": "kʷʼː",
         "qʼʷ": "qʷʼ",
         "qʼʷː": "qʷʼː",
-        "tʼʷ": "tʷʼ",
         "tsʼʷ": "tsʷʼ",
+        "tɕʼʷ": "tɕʷʼ",
+        "tʼʷ": "tʷʼ",
 
         # ʰˠ -> ˠʰ
         "pʰˠ": "pˠʰ",
