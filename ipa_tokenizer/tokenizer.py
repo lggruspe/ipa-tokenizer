@@ -145,7 +145,10 @@ def tokenize(
     ok, tokens = _help_tokenize(ipa, corrections, inventory)
     if not ok:
         raise UnknownSymbol("".join(tokens), ipa)
-    return tokens
+
+    # Corrections sometimes return an empty string.
+    # Those empty strings should be filtered out.
+    return [token for token in tokens if token]
 
 
 __all__ = ["tokenize"]

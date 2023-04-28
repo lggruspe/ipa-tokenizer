@@ -12,3 +12,13 @@ def test_tokenize_with_unknown_symbol() -> None:
     """UnknownSymbol should be raised if input has an unknown symbol."""
     with pytest.raises(UnknownSymbol):
         tokenize("%")
+
+
+def test_tokenize_no_empty_string() -> None:
+    """The resulting list of tokens shouldn't contain an empty string."""
+    assert tokenize(" ") == []
+
+    # \u032f is a combining inverted breve below, like in [ɐ̯].
+    # The tokenizer should ignore it if it doesn't modify the previous symbol.
+    assert tokenize("\u032f") == []
+    assert tokenize("aɪ̯l") == ["a", "ɪ", "l"]
