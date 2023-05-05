@@ -54,10 +54,12 @@ class UnknownSymbolCounter:
         return result
 
 
-def load_csv(path: Path) -> list[Record]:
-    """Narrow IPA transcriptions."""
+def load_tsv(path: Path) -> list[Record]:
+    """Load transcriptions from a TSV file."""
     with open(path, encoding="utf-8") as file:
-        rows = [t.cast(Record, tuple(row)) for row in reader(file)]
+        rows = [
+            t.cast(Record, tuple(row)) for row in reader(file, delimiter="\t")
+        ]
     return rows
 
 
@@ -89,16 +91,16 @@ def parse_args() -> Namespace:
     """Parse command-line arguments."""
     parser = ArgumentParser(description=__doc__)
     parser.add_argument(
-        "csv",
+        "tsv",
         type=Path,
-        help="path to CSV file (columns: language, word, transcription)",
+        help="path to TSV file (columns: language, word, transcription)",
     )
     return parser.parse_args()
 
 
 def main(args: Namespace) -> None:
     """Script entrypoint."""
-    records = load_csv(args.csv)
+    records = load_tsv(args.tsv)
     debug(records)
 
 
