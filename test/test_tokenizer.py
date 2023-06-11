@@ -31,3 +31,9 @@ def test_tokenize_length_modifier() -> None:
     with pytest.raises(UnknownSymbol):
         tokenize("ː")
     assert tokenize("aː") == ["aː"]
+
+
+def test_tokenize_null() -> None:
+    """Disallow null symbol ∅."""
+    with pytest.raises(UnknownSymbol):
+        tokenize("∅")

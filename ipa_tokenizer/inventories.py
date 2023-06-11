@@ -27,8 +27,9 @@ def get_phoible_inventories() -> dict[str, set[str]]:
         for glottocode, sounds in reader(file):
             inventory = {normalize_ipa(sound) for sound in sounds.split()}
 
-            # Remove standalone ː
+            # Discard symbols that shouldn't be in sound inventories.
             inventory.discard("ː")
+            inventory.discard("∅")
 
             combined.update(inventory)
             result.setdefault(glottocode, set()).update(inventory)
