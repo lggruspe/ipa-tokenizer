@@ -151,4 +151,4 @@ def tokenize(
     return [token for token in tokens if token]
 
 
-__all__ = ["tokenize"]
+__all__ = ["tokenize", "UnknownSymbol"]
