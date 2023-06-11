@@ -26,6 +26,10 @@ def get_phoible_inventories() -> dict[str, set[str]]:
     with open(path, encoding="utf-8") as file:
         for glottocode, sounds in reader(file):
             inventory = {normalize_ipa(sound) for sound in sounds.split()}
+
+            # Remove standalone ː
+            inventory.discard("ː")
+
             combined.update(inventory)
             result.setdefault(glottocode, set()).update(inventory)
     result["*"] = combined

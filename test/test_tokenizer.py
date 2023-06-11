@@ -22,3 +22,12 @@ def test_tokenize_no_empty_string() -> None:
     # The tokenizer should ignore it if it doesn't modify the previous symbol.
     assert tokenize("\u032f") == []
     assert tokenize("aɪ̯l") == ["a", "ɪ", "l"]
+
+
+def test_tokenize_length_modifier() -> None:
+    """Disallow standalone length modifier."""
+    with pytest.raises(UnknownSymbol):
+        tokenize("ˑ")
+    with pytest.raises(UnknownSymbol):
+        tokenize("ː")
+    assert tokenize("aː") == ["aː"]
