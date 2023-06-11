@@ -1288,6 +1288,10 @@ def create_tokenization_table() -> dict[str, str]:
         # preceding symbol.
         # NOTE Don't add too many substitution rules to this section.
 
+        # Length modifiers
+        "ː": "",
+        "ˑ": "",
+
         # Non-syllabic
         "\u032f": "",   # combining inverted breve below like in [ɐ̯].
 

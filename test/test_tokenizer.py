@@ -26,11 +26,13 @@ def test_tokenize_no_empty_string() -> None:
 
 def test_tokenize_length_modifier() -> None:
     """Disallow standalone length modifier."""
-    with pytest.raises(UnknownSymbol):
-        tokenize("ˑ")
-    with pytest.raises(UnknownSymbol):
-        tokenize("ː")
-    assert tokenize("aː") == ["aː"]
+    assert tokenize("ˑ") == []
+    assert tokenize("ː") == []
+
+    # If the language is unspecified, or if the inventory specified language
+    # doesn't have [aː], [aː] just gets turned into [a].
+    assert tokenize("a") == ["a"]
+    assert tokenize("aː", language="en") == ["aː"]
 
 
 def test_tokenize_null() -> None:
