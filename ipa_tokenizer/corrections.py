@@ -14,12 +14,6 @@ def create_preprocessing_table() -> dict[int, str]:
     """
     table = {
         ## Suprasegmentals not used by PHOIBLE
-
-        "ˈ": "",    # primary stress
-        "ˌ": "",    # secondary stress
-        "|": "",    # minor (foot) group
-        "‖": "",    # major (intonation) group
-        ".": "",    # syllable break
         "‿": "",    # linking
 
         # Some zh transcriptions seem to use '|' for alternate pronunciations,
@@ -28,6 +22,15 @@ def create_preprocessing_table() -> dict[int, str]:
         # ː (long)
         # ˑ (half-long)
         # ă (the diacritic, which means extra-short)
+
+        # Suprasegmentals that break syllables also won't be excluded.
+        # They are handled during tokenization instead.
+        # Examples:
+        # | (minor (foot) group)
+        # ‖ (major (intonation) group)
+        # ˈ (primary stress)
+        # ˌ (secondary stress)
+        # . (syllable break)
 
         ## Other IPA symbols
 
@@ -39,7 +42,6 @@ def create_preprocessing_table() -> dict[int, str]:
 
         # Some symbols that don't represent a sound appear in many IPA
         # transcriptions.
-        " ": "",
         "-": "",
 
         # In transcriptions in proto-languages, * means that the pronunciation
@@ -1294,6 +1296,16 @@ def create_tokenization_table() -> dict[str, str]:
         # NOTE There may be exceptions to this rule.
         # For example, isn't a syllabic /j/ just /i/?
         # https://linguistics.stackexchange.com/questions/40209/are-there-any-languages-that-have-syllabic-w-or-j
+
+        # Suprasegmentals that break syllables
+        # These aren't removed during preprocessing, because they are needed,
+        # for instance, to distinguish between [t͡s] and [t.s].
+        "|": "",    # minor (foot) group
+        "‖": "",    # major (intonation) group
+        "ˈ": "",    # primary stress
+        "ˌ": "",    # secondary stress
+        ".": "",    # syllable break
+        " ": "",
     }
     return {
         normalize_ipa(key): normalize_ipa(value)

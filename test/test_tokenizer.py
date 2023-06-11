@@ -37,3 +37,12 @@ def test_tokenize_null() -> None:
     """Disallow null symbol ∅."""
     with pytest.raises(UnknownSymbol):
         tokenize("∅")
+
+
+def test_tokenize_syllable_breaks() -> None:
+    """Syllable breaks should be respected."""
+    assert tokenize("ts", language="pl") == ["ts"]
+
+    examples = ["tˈs", "tˌs", "t.s", "t s"]
+    for example in examples:
+        assert tokenize(example, language="pl") == ["t", "s"], example
