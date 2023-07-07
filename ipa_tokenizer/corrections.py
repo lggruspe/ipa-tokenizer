@@ -68,7 +68,7 @@ def create_preprocessing_table() -> dict[int, str]:
 
         ## Typographic substitutes
 
-        # /ᴇ/ is sometimes used in Sinology and Koreanlogy.
+        # /ᴇ/ is sometimes used in Sinology and Koreanology.
         # See https://en.wikipedia.org/wiki/Mid_front_unrounded_vowel
         # This could also be an /ɛ̝/, but /e̞/ is the more represented
         # symbol on PHOIBLE.
