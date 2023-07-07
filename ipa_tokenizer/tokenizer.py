@@ -10,6 +10,7 @@ from ipa_tokenizer.corrections import (
 )
 from ipa_tokenizer.inventories import (
     get_phoible_inventories,
+    get_tone_letters,
     sound_frequencies,
 )
 from ipa_tokenizer.languages import to_glottocode
@@ -21,6 +22,8 @@ phones = inventories["*"]
 preprocessing_table = create_preprocessing_table()
 default_corrections = create_tokenization_table()
 frequencies = sound_frequencies(inventories)
+tones = get_tone_letters()
+modifiers = {"ˑ", "ː"}
 
 
 class UnknownSymbol(Exception):
@@ -117,6 +120,29 @@ def get_language_inventory(language: str) -> set[str]:
     return result
 
 
+def fix_vowel_length_modifiers(tokens: list[str]) -> None:
+    """Drop vowel length modifiers that don't combine with the previous
+    token.
+    """
+    if not tokens:
+        return
+
+    if tokens[0] in modifiers:
+        tokens[0] = ""
+
+    for i in range(1, len(tokens)):
+        modifier = tokens[i]
+        if modifier not in modifiers:
+            continue
+
+        # Check if modifier combines with the preceding symbol.
+        # If not, delete it.
+        segment = tokens[i - 1] + modifier
+        if segment in phones:
+            tokens[i - 1] = segment
+        tokens[i] = ""
+
+
 def tokenize(
     ipa: str,
     language: str = "*",
@@ -145,6 +171,9 @@ def tokenize(
     ok, tokens = _help_tokenize(ipa, corrections, inventory)
     if not ok:
         raise UnknownSymbol("".join(tokens), ipa)
+
+    # Post-processing.
+    fix_vowel_length_modifiers(tokens)
 
     # Corrections sometimes return an empty string.
     # Those empty strings should be filtered out.

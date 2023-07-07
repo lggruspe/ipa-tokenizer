@@ -1289,8 +1289,10 @@ def create_tokenization_table() -> dict[str, str]:
         # NOTE Don't add too many substitution rules to this section.
 
         # Length modifiers
-        "ː": "",
-        "ˑ": "",
+        # Match ː and ˑ even if they're not valid IPA segments. We'll fix
+        # them during post-processing.
+        "ː": "ː",
+        "ˑ": "ˑ",
 
         # Non-syllabic
         "\u032f": "",   # combining inverted breve below like in [ɐ̯].

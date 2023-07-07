@@ -29,6 +29,7 @@ def get_phoible_inventories() -> dict[str, set[str]]:
 
             # Discard symbols that shouldn't be in sound inventories.
             inventory.discard("ː")
+            inventory.discard("ˑ")
             inventory.discard("∅")
 
             combined.update(inventory)
@@ -48,4 +49,70 @@ def sound_frequencies(inventories: dict[str, set[str]]) -> Counter[str]:
     return counter
 
 
-__all__ = ["get_phoible_inventories", "sound_frequencies"]
+def get_tone_letters() -> set[str]:
+    """Return a list of tone letters."""
+    return {
+        "˦",
+        "˨",
+        "˧",
+        "˦˨",
+        "˨˦",
+        "˥",
+        "˥˩",
+        "˩",
+        "˩˥",
+        "˨˧",
+        "˧˨",
+        "˦˧",
+        "˥˦",
+        "˧˩",
+        "˧˥",
+        "↓˦",
+        "˩˨",
+        "˦˥",
+        "˧˦",
+        "↓",
+        "˦˨˦",
+        "˨˦˨",
+        "˩˧",
+        "˨˩",
+        "˦↓˦",
+        "˩̰",
+        "˧˨˥",
+        "˥˧˥",
+        "˥̰",
+        "˨˦˧",
+        "˨˥˩",
+        "˧˦˧",
+        "˧˨˧",
+        "˥˧",
+        "˦˥̰",
+        "˨˩̤",
+        "˧˩̰",
+        "˧˨ˤ",
+        "˧˨̤",
+        "˨˧˩",
+        "˦˩",
+        "˨˧˨",
+        "↓˦˨",
+        "˦˥˦",
+        "˥˧̰",
+        "˧˩̤",
+        "˨˥",
+        "↓˦↓˦",
+        "˥˨˧",
+        "˧˥˨",
+        "˥˨",
+        "˩˧˩",
+        "˦̰",
+        "˦ˀ",
+        "˦˦˨",
+        "˦˨˨",
+        "˨˦˦",
+        "˨˨˦",
+        "˥˩˩˥",
+        "˦˩˨",
+    }
+
+
+__all__ = ["get_phoible_inventories", "get_tone_letters", "sound_frequencies"]

@@ -86,9 +86,12 @@ def test_tokenization_table_values(
     tokenization_table: dict[str, str],
     phoible: set[str],
 ) -> None:
-    """Values should be in PHOIBLE."""
+    """Values should be in PHOIBLE.
+
+    Vowel length modifiers are exceptions.
+    """
     for value in tokenization_table.values():
-        if value == "":
+        if value in ("", "ː", "ˑ"):
             continue
         assert value in phoible
 
@@ -104,8 +107,13 @@ def test_preprocessing_table_redundant_keys(
 def test_tokenization_table_redundant_keys(
     tokenization_table: dict[str, str],
 ) -> None:
-    """Key shouldn't be the same as the replacement value."""
+    """Key shouldn't be the same as the replacement value.
+
+    Vowel length modifiers are exceptions.
+    """
     for key, value in tokenization_table.items():
+        if value in ("ː", "ˑ"):
+            continue
         assert key != value
 
 
@@ -122,4 +130,6 @@ def test_redundant_keys(
         assert glyph not in second
 
     for key, value in tokenization_table.items():
+        if value in ("ː", "ˑ"):
+            continue
         assert key != value
