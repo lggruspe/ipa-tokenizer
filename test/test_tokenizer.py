@@ -45,3 +45,19 @@ def test_tokenize_syllable_breaks() -> None:
     examples = ["tˈs", "tˌs", "t.s", "t s"]
     for example in examples:
         assert tokenize(example, language="pl") == ["t", "s"], example
+
+
+def test_tokenize_with_tone_letters_and_length_modifier() -> None:
+    """Vowel length modifiers should precede tone letters."""
+    expected = ["aː", "˦"]
+    assert tokenize("aː˦") == expected
+    assert tokenize("a˦ː") == expected
+
+    examples = [
+        tokenize("a˦ː"),
+        tokenize("a˦˦ː"),
+        tokenize("a˦˦˦ː"),
+        tokenize("a˦˦˦˦ː"),
+    ]
+    for example in examples:
+        assert example[0] == "aː"

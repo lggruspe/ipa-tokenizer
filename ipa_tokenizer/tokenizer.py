@@ -121,14 +121,27 @@ def get_language_inventory(language: str) -> set[str]:
 
 
 def fix_vowel_length_modifiers(tokens: list[str]) -> None:
-    """Drop vowel length modifiers that don't combine with the previous
-    token.
+    """Drop vowel length modifiers that don't combine with preceding tokens.
+
+    And reorder tokens so that vowel length modifiers precede token letters.
     """
     if not tokens:
         return
 
     if tokens[0] in modifiers:
         tokens[0] = ""
+
+    # Move length modifiers before token letters.
+    for i in range(1, len(tokens)):
+        modifier = tokens[i]
+        if modifier not in modifiers:
+            continue
+
+        j = i - 1
+        while j >= 0 and tokens[j] in tones:
+            tokens[j + 1] = tokens[j]
+            j -= 1
+        tokens[j + 1] = modifier
 
     for i in range(1, len(tokens)):
         modifier = tokens[i]
