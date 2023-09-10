@@ -1283,6 +1283,28 @@ def create_tokenization_table() -> dict[str, str]:
         # replace it with /ʔ/.
         "ˀ": "ʔ",
 
+        # [r̝̊] gets preprocessed into [r̝̥], which only appears in Czech
+        # transcriptions. PHOIBLE doesn't have this segment for Czech,
+        # and Wikipedia says its an allophone of /r̝/, so we'll replace it
+        # with that.
+        # See: https://en.wikipedia.org/wiki/Voiceless_alveolar_trill
+        "r̝̥": "r̝",
+
+        # About 99% of [tˢ]s appear in Danish transcriptions.
+        # [tˢ] is equivalent to /tsʰ/ according to:
+        # - https://en.wikipedia.org/wiki/Danish_phonology#Consonants
+        # - https://en.wikipedia.org/wiki/Help:IPA/Danish
+        "tˢ": "tsʰ",
+
+        # [ɯ̟ᵝ] appears mostly in Japanese transcriptions with some in
+        # Okinawan. It appears to be an allophone of /u/ in both languages.
+        # - https://en.wikipedia.org/wiki/Japanese_phonology#Vowels
+        "ɯ̟ᵝ": "u",
+
+        # [ʌ̹] appears mostly in Korean transcriptions with some in Jeju.
+        # PHOIBLE inventories only have /ʌ/, so we'll replace it with that.
+        "ʌ̹": "ʌ",
+
         ## Unrecognized diacritics and modifiers
         # Simply ignore diacritics/modifiers if they don't combine with the
         # preceding symbol.
