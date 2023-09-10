@@ -1301,9 +1301,18 @@ def create_tokenization_table() -> dict[str, str]:
         # - https://en.wikipedia.org/wiki/Japanese_phonology#Vowels
         "ɯ̟ᵝ": "u",
 
+        # [ɨᵝ] also appears only in Japanese transcriptions and appears to
+        # be another allophone of /u/.
+        # - https://en.wikipedia.org/wiki/Close_back_rounded_vowel#Occurrence_2
+        "ɨᵝ": "u",
+
         # [ʌ̹] appears mostly in Korean transcriptions with some in Jeju.
         # PHOIBLE inventories only have /ʌ/, so we'll replace it with that.
         "ʌ̹": "ʌ",
+
+        # [lːʲ] appears in Latin transcriptions. This segment appears as
+        # /lʲː/ in PHOIBLE.
+        "lːʲ": "lʲː",
 
         ## Unrecognized diacritics and modifiers
         # Simply ignore diacritics/modifiers if they don't combine with the
